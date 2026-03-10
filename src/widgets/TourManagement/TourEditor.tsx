@@ -239,7 +239,7 @@ export function TourEditor({
                 />
                 <div className="ml-3 flex-1 min-w-0">
                   <div className="font-medium text-sm text-slate-800 truncate">
-                    {poi.name}
+                    {poi.localizedData?.["vi"]?.name}
                   </div>
                   <div className="text-xs text-slate-500 mt-0.5">
                     {poi.type}
@@ -277,9 +277,12 @@ export function TourEditor({
           zoomControl={false}
           className="w-full h-full z-0"
         >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
 
-          {filteredPois.map((poi) => {
+          {filteredPois.map((poi: any) => {
             const isSelected = tour.poiIds.includes(poi.id);
             const orderIndex = tour.poiIds.indexOf(poi.id);
             return (
@@ -289,13 +292,33 @@ export function TourEditor({
                 icon={getPoiIcon(poi.type, isSelected)}
                 eventHandlers={{ click: () => togglePoi(poi.id) }}
               >
-                <Popup>
-                  <div className="font-medium">{poi.name}</div>
-                  {isSelected && (
-                    <div className="text-xs text-emerald-600 font-bold mt-1">
-                      Điểm số {orderIndex + 1}
+                <Popup className="rounded-xl overflow-hidden">
+                  <div className="p-0 m-0 w-48">
+                    <img
+                      src={poi.image}
+                      alt={poi.localizedData?.["vi"]?.name}
+                      className="w-full h-24 object-cover"
+                    />
+                    <div className="p-3">
+                      <h3 className="font-semibold text-gray-900 text-sm mb-1">
+                        {poi.localizedData?.["vi"]?.name}
+                      </h3>
+                      <p className="text-xs text-gray-500 line-clamp-2 mb-2 line-clamp-2">
+                        {/* {poi.localizedData?.["vi"]?.description?.text} */}
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book. It has
+                        survived not only five centuries, but also the leap into
+                        electronic typesetting, remaining essentially unchanged.
+                        It was popularised in the 1960s with the release of
+                        Letraset sheets containing Lorem Ipsum passages, and
+                        more recently with desktop publishing software like
+                        Aldus PageMaker including versions of Lorem Ipsum.
+                      </p>
                     </div>
-                  )}
+                  </div>
                 </Popup>
               </Marker>
             );

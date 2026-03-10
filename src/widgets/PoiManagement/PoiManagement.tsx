@@ -1,6 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { Languages, MapPin, Plus, Search, Trash2 } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Languages,
+  MapPin,
+  Plus,
+  Search,
+  Trash2,
+} from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
 import { POI, POIType, Tour } from "../../types";
@@ -141,10 +148,12 @@ export function PoiManagement({
     value: string,
   ) => {
     if (!editingPoi) return;
+
     setEditingPoi({
       ...editingPoi,
       localizedData: {
         ...editingPoi.localizedData,
+        // @ts-ignore
         ["vi"]: { [field]: value },
       },
     });
@@ -161,7 +170,10 @@ export function PoiManagement({
             zoomControl={false}
             className="w-full h-full z-0 cursor-crosshair"
           >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
             <MapEvents onMapClick={handleMapClick} />
 
             {pois.map((poi) => (
@@ -171,7 +183,35 @@ export function PoiManagement({
                 icon={getPoiIcon(poi.type, selectedPoiId === poi.id)}
                 eventHandlers={{ click: () => handlePoiClick(poi.id) }}
               >
-                <Popup>{poi.localizedData["vi"].name}</Popup>
+                {/* <Popup>{poi.localizedData["vi"].name}</Popup> */}
+                <Popup className="rounded-xl overflow-hidden">
+                  <div className="p-0 m-0 w-48">
+                    <img
+                      src={poi.image}
+                      alt={poi.localizedData?.["vi"]?.name}
+                      className="w-full h-24 object-cover"
+                    />
+                    <div className="p-3">
+                      <h3 className="font-semibold text-gray-900 text-sm mb-1">
+                        {poi.localizedData?.["vi"]?.name}
+                      </h3>
+                      <p className="text-xs text-gray-500 line-clamp-2 mb-2 line-clamp-2">
+                        {/* {poi.localizedData?.["vi"]?.description?.text} */}
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book. It has
+                        survived not only five centuries, but also the leap into
+                        electronic typesetting, remaining essentially unchanged.
+                        It was popularised in the 1960s with the release of
+                        Letraset sheets containing Lorem Ipsum passages, and
+                        more recently with desktop publishing software like
+                        Aldus PageMaker including versions of Lorem Ipsum.
+                      </p>
+                    </div>
+                  </div>
+                </Popup>
               </Marker>
             ))}
 
@@ -248,7 +288,7 @@ export function PoiManagement({
                   <div className="h-24 bg-slate-100 relative">
                     <img
                       src={poi.image}
-                      alt={poi.name}
+                      alt={poi.localizedData?.["vi"]?.name}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded uppercase">
@@ -257,7 +297,7 @@ export function PoiManagement({
                   </div>
                   <div className="p-3">
                     <h4 className="font-bold text-slate-800 text-sm truncate">
-                      {poi.name}
+                      {poi.localizedData?.["vi"]?.name}
                     </h4>
                     <p className="text-xs text-slate-500 mt-1">
                       {poi.latitude.toFixed(4)}, {poi.longitude.toFixed(4)}
@@ -442,10 +482,49 @@ export function PoiManagement({
             </div>
           </div>
 
+          {/* Image Section */}
+          <div>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+              3. Ảnh (Image)
+            </h3>
+            <div className="aspect-[4/3] bg-slate-100 rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center relative overflow-hidden group">
+              {editingPoi?.image ? (
+                <>
+                  <img
+                    src={editingPoi.image}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-white font-medium bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm">
+                      Thay đổi ảnh
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <ImageIcon className="w-8 h-8 text-slate-400 mb-2" />
+                  <span className="text-sm text-slate-500 font-medium">
+                    Hover để nhập URL ảnh
+                  </span>
+                </>
+              )}
+              <input
+                type="text"
+                placeholder="Image URL"
+                value={editingPoi?.image || ""}
+                onChange={(e) =>
+                  setEditingPoi({ ...editingPoi, image: e.target.value })
+                }
+                className="absolute bottom-3 left-3 right-3 px-3 py-2 bg-white/90 backdrop-blur text-sm rounded-lg border border-slate-200 outline-none opacity-0 group-hover:opacity-100 transition-opacity"
+              />
+            </div>
+          </div>
+
           {/* Type Section */}
           <div>
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-              3. Loại điểm (Type)
+              4. Loại điểm (Type)
             </h3>
             <div>
               <label className="block text-xs text-slate-600 mb-1">

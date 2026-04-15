@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7f9fb",
+              "on-primary-container": "#a8b8ff",
+              "secondary": "#525c87",
+              "tertiary": "#611e00",
+              "surface-dim": "#d8dadc",
+              "surface-tint": "#3755c3",
+              "surface": "#f7f9fb",
+              "surface-container": "#eceef0",
+              "inverse-primary": "#b8c4ff",
+              "on-primary-fixed-variant": "#173bab",
+              "surface-container-highest": "#e0e3e5",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-container": "#872d00",
+              "on-secondary-container": "#4c5680",
+              "on-tertiary-fixed": "#380d00",
+              "on-background": "#191c1e",
+              "surface-variant": "#e0e3e5",
+              "inverse-surface": "#2d3133",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#001453",
+              "tertiary-fixed-dim": "#ffb59a",
+              "surface-bright": "#f7f9fb",
+              "tertiary-fixed": "#ffdbce",
+              "primary-fixed-dim": "#b8c4ff",
+              "secondary-container": "#c3ccfe",
+              "primary-fixed": "#dde1ff",
+              "on-secondary-fixed-variant": "#3b446e",
+              "primary-container": "#1e40af",
+              "secondary-fixed-dim": "#bbc4f6",
+              "outline": "#757684",
+              "on-surface-variant": "#444653",
+              "secondary-fixed": "#dde1ff",
+              "primary": "#00288e",
+              "on-primary": "#ffffff",
+              "outline-variant": "#c4c5d5",
+              "on-tertiary-container": "#ffa583",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#191c1e",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#802a00",
+              "on-secondary-fixed": "#0e1840"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+        }
+        .ambient-shadow {
+            box-shadow: 0 24px 48px -12px rgba(25, 28, 30, 0.08);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #00288e 0%, #1e40af 100%);
+        }
+    </style>
+</head>
+<body class="font-body bg-background text-on-surface min-h-screen flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Travel background" class="w-full h-full object-cover" data-alt="Cinematic wide shot of a traveler overlooking a vast canyon at sunset with deep indigo and amber lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcDkjDTLNn4aIsf6CVVpcgWUAsXNZQD9-ljrjO_3G9H4FmUaVvJOocjMGlFqEoqQ9D4YevDqJv5vD4fSUo2w8Y6zuXmNIDSfg0LmBMHUXWD3Fo38oENubMulvqBeOCbW3ELCzyd63DJoQJX5fc_Uodg67wpAgk8G8kyzewj14iBaX1vd5TBeGm1rqefVZaE1Bhboj12HDJRJJKZ2o0eFunogyFq_0Oo7_azBE1q4wye2C4uN70wSj73VNG-DQZ2iRsezotnYn7rXW6"/>
+<div class="absolute inset-0 bg-on-background/40 backdrop-blur-[2px]"></div>
+</div>
+<main class="relative z-10 w-full max-w-md px-6 py-12">
+<div class="glass-panel ambient-shadow rounded-xl p-8 md:p-12 flex flex-col items-center">
+<div class="mb-10 text-center">
+<div class="flex items-center justify-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+</div>
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-2">The Narrator</h1>
+<p class="text-on-surface-variant font-medium tracking-wide text-sm">ADMIN CONSOLE</p>
+</div>
+<form class="w-full space-y-6">
+<div class="space-y-2">
+<label class="block font-label text-xs font-semibold text-on-surface-variant tracking-wider uppercase" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl" data-icon="mail">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline/60 transition-all" id="email" name="email" placeholder="admin@globalnarrator.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<label class="block font-label text-xs font-semibold text-on-surface-variant tracking-wider uppercase" for="password">Password</label>
+<a class="text-xs font-semibold text-primary hover:text-on-primary-fixed-variant transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl" data-icon="lock">lock</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline/60 transition-all" id="password" name="password" placeholder="••••••••••••" type="password"/>
+</div>
+</div>
+<div class="flex items-center">
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface-container transition-all cursor-pointer" type="checkbox"/>
+<span class="ml-3 text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">Remember this session</span>
+</label>
+</div>
+<button class="w-full primary-gradient text-on-primary font-headline font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-95 transition-all active:scale-[0.98] shadow-lg shadow-primary/20" type="submit">
+<span>Sign In to Console</span>
+<span class="material-symbols-outlined text-xl" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<div class="mt-12 flex items-center gap-4 w-full">
+<div class="h-px bg-outline-variant/30 flex-grow"></div>
+<span class="text-xs font-bold text-outline uppercase tracking-[0.2em]">Secure Access</span>
+<div class="h-px bg-outline-variant/30 flex-grow"></div>
+</div>
+<div class="mt-8 flex justify-center gap-6">
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="language">language</span>
+<span class="text-xs font-semibold">EN-US</span>
+</div>
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-sm" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-semibold">SSL Encrypted</span>
+</div>
+</div>
+</div>
+<footer class="mt-8 text-center">
+<p class="text-surface-container-highest/60 text-xs font-medium tracking-wide">
+                © 2024 The Global Narrator. All rights reserved.
+            </p>
+</footer>
+</main>
+<div class="absolute bottom-10 right-10 z-10 hidden lg:block">
+<div class="glass-panel p-4 rounded-xl flex items-center gap-4 border border-outline-variant/10">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden">
+<img alt="Context image" class="w-full h-full object-cover" data-alt="Microscopic view of historical parchment paper with elegant calligraphy texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHImyWCj2KQGT-fHbpLz7S7bAJr7szi6428tlSbO3SRmSo7rZOxB1G2YWgX7-k7tPbxQQHG1j5cdeglFb_Jk_YOqvV4fVI8MF4BU60Hz_SM3stte_LCGFXVIlCCQV3QxFMJEV_I6RqQbbeuiY5t6R7MIIeb50LZFTx2oZ-qPXInvMH24ap_xTcll0Y9c1QDWUKTYdMt4v7Mzfs35DbRielZOtVPww4rb0w7gBBpoK6orAKGSZlQAGYXlalKLZ4yBo47dm0yjfJIENk"/>
+</div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest">Featured Curated Tour</p>
+<p class="text-sm font-headline font-bold text-on-surface">The Roman Shadows</p>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Tour Journey - The Global Narrator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbce",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "tertiary-container": "#872d00",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-highest": "#e0e3e5",
+              "error": "#ba1a1a",
+              "secondary-container": "#c3ccfe",
+              "outline": "#757684",
+              "on-primary-fixed-variant": "#173bab",
+              "primary-fixed": "#dde1ff",
+              "tertiary-fixed-dim": "#ffb59a",
+              "on-tertiary-fixed": "#380d00",
+              "primary-container": "#1e40af",
+              "on-secondary-container": "#4c5680",
+              "surface-tint": "#3755c3",
+              "on-secondary-fixed-variant": "#3b446e",
+              "secondary-fixed": "#dde1ff",
+              "on-tertiary-fixed-variant": "#802a00",
+              "surface-container": "#eceef0",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "primary": "#00288e",
+              "primary-fixed-dim": "#b8c4ff",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary-fixed": "#0e1840",
+              "on-primary-container": "#a8b8ff",
+              "inverse-primary": "#b8c4ff",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-container": "#ffa583",
+              "on-surface-variant": "#444653",
+              "outline-variant": "#c4c5d5",
+              "secondary": "#525c87",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed": "#001453",
+              "secondary-fixed-dim": "#bbc4f6",
+              "tertiary": "#611e00",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "on-background": "#191c1e",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .tonal-layering-no-borders {
+            border: none !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50/80 backdrop-blur-xl flex flex-col py-6 shadow-2xl shadow-blue-900/5 z-30 tonal-layering-no-borders">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold text-blue-900 font-headline tracking-tight">The Narrator</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors transition-all duration-300 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors transition-all duration-300 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">POI Management</span>
+</a>
+<!-- Active State: Tour Management -->
+<a class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-r-full border-l-4 border-blue-700 transition-all duration-300 ease-in-out translate-x-1" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Tour Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors transition-all duration-300 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pt-4 border-t border-slate-100">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors transition-all duration-300 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Help Center</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/70 backdrop-blur-md flex justify-between items-center px-8 z-20 border-b border-slate-100">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-400" placeholder="Search tours, POIs, or regions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">translate</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-100"></div>
+<div class="flex items-center gap-3">
+<img alt="Administrator Portrait" class="w-8 h-8 rounded-full object-cover border border-slate-200" data-alt="Close-up portrait of a professional administrator with soft studio lighting and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsIi6uTQbfxhYy0_yt5m4jFMTlrheQ4WxT5NxHr5JmOLV2MV5FdcOuAocW6KElpTVFU850FUeHrb-UtQz1ye6_yR-CtLyohmw3KF-nuVXxbwn4slQbF3HwGb-VHDNfrDoMUgujWoI76xwaUq4PgJ1Od22c6rzKyQpbGu2hEI_IhyZqSTY41EbNzUKIL3lluEwM95SbtmdOOZTaM-zk7b6nRs7dalo4h3swf9lNcereOy_p248zNwaJbkAwT2lJNHQIWEXCbJqT8gzV"/>
+<span class="text-sm font-medium text-on-surface">Admin User</span>
+</div>
+</div>
+</header>
+<!-- Background Content (Tour Management Page) -->
+<main class="ml-64 pt-24 px-12 pb-12 min-h-screen">
+<header class="mb-12">
+<h2 class="text-4xl font-extrabold font-headline text-on-surface tracking-tight mb-2">Tour Management</h2>
+<p class="text-on-surface-variant max-w-2xl">Curate and refine the narrative journeys that define the Global Narrator experience. Organize POIs into seamless storytelling flows.</p>
+</header>
+<!-- Mock Dashboard Grid -->
+<div class="grid grid-cols-12 gap-8">
+<div class="col-span-8 space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-2xl">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="text-xl font-bold font-headline mb-1">Active Narratives</h3>
+<p class="text-sm text-slate-500">Currently published and live globally</p>
+</div>
+<button class="px-5 py-2.5 bg-gradient-to-tr from-primary to-primary-container text-white text-sm font-semibold rounded-xl hover:opacity-90 transition-all">Create New Tour</button>
+</div>
+<div class="space-y-4">
+<!-- Mock Rows -->
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<div>
+<p class="font-bold text-slate-800">Prague Old Town Mysteries</p>
+<p class="text-xs text-slate-500">12 POIs • 45 Minutes • EN, DE, CZ</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400">more_horiz</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined">castle</span>
+</div>
+<div>
+<p class="font-bold text-slate-800">The Royal Route Walk</p>
+<p class="text-xs text-slate-500">8 POIs • 30 Minutes • EN, FR</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400">more_horiz</span>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-4 space-y-6">
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h4 class="font-bold font-headline mb-4">Tour Analytics</h4>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Total Listeners</p>
+<p class="text-2xl font-extrabold text-blue-900">14.2k</p>
+<p class="text-xs text-tertiary mt-2">↑ 12% from last month</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Avg. Completion</p>
+<p class="text-2xl font-extrabold text-blue-900">88%</p>
+<div class="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-blue-600 h-full w-[88%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- MODAL OVERLAY -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-12">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-surface/40 backdrop-blur-sm"></div>
+<!-- Modal Content -->
+<div class="relative w-full max-w-4xl max-h-[921px] glass-panel rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+<!-- Modal Header -->
+<div class="px-10 py-8 flex items-center justify-between">
+<div>
+<h2 class="text-3xl font-extrabold font-headline text-blue-900 tracking-tight">Edit Tour Journey</h2>
+<p class="text-on-surface-variant font-medium mt-1">Configure sequence, metadata, and localization for this narrative.</p>
+</div>
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-200 transition-all text-slate-400">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar px-10 pb-10">
+<div class="grid grid-cols-12 gap-10">
+<!-- Left Column: Form Fields -->
+<div class="col-span-12 lg:col-span-5 space-y-8">
+<section class="space-y-6">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Tour Narrative Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-on-surface font-semibold focus:ring-2 focus:ring-blue-500/20 transition-all" type="text" value="Prague Old Town Mysteries"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Expected Duration (Mins)</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-on-surface font-semibold focus:ring-2 focus:ring-blue-500/20 transition-all" type="number" value="45"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-sm">minutes</span>
+</div>
+</div>
+</section>
+<section class="p-6 bg-blue-50/50 rounded-2xl space-y-4">
+<h3 class="font-bold text-blue-900 flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-600">translate</span>
+                                Supported Languages
+                            </h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-lg border border-blue-200">ENGLISH (EN)</span>
+<span class="px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-lg border border-blue-200">GERMAN (DE)</span>
+<span class="px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-lg border border-blue-200">CZECH (CZ)</span>
+<button class="px-3 py-1.5 bg-white text-blue-600 text-xs font-bold rounded-lg border border-blue-100 shadow-sm hover:shadow-md transition-all">+ ADD</button>
+</div>
+<p class="text-[11px] text-blue-600/70 font-medium leading-relaxed italic">All selected POIs must have finalized scripts in these languages before publishing.</p>
+</section>
+</div>
+<!-- Right Column: POI Ordering -->
+<div class="col-span-12 lg:col-span-7">
+<div class="flex items-center justify-between mb-4">
+<label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Sequence of POIs (12)</label>
+<button class="text-xs font-bold text-blue-700 hover:underline">Re-map coordinates</button>
+</div>
+<div class="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+<!-- Draggable Item 1 -->
+<div class="group flex items-center gap-4 p-3 bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100/50 hover:border-blue-200 hover:translate-x-1 transition-all cursor-grab active:cursor-grabbing">
+<div class="flex flex-col items-center gap-1 text-slate-300 group-hover:text-blue-400 transition-colors">
+<span class="material-symbols-outlined text-lg">drag_indicator</span>
+</div>
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-500">01</span>
+<img alt="Astronomical Clock" class="w-10 h-10 rounded-lg object-cover" data-alt="Medieval astronomical clock tower in Prague with intricate gold details and statues under soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC-2BfWd53Xv1WqEUZJl_smEnL8kurhuX1de2tkVoneuRjk-Td_0_3zSwAbdz8F94QfkBM3VHH3MWS_wevPein_MFaGNzK2Q1RDPYamP9Bz6GB8mxxJme_oa9dXSFYrOfKTP3rw89VciQA2fWB8sMFvI4qm8M2cWnGDnY1ruEbeyTyGEKng3Bt52pgGxze-PqGwBLtNyJrWvApqUFX890j4ESwRLNiTS_ztW6Oae2diT7d9Px6nWDGmji3E-fMYoWbXo7Gq-WZy8QZ"/>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-800">Astronomical Clock</p>
+<p class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Narrative Point • 4:20 Duration</p>
+</div>
+<button class="p-2 text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<!-- Draggable Item 2 -->
+<div class="group flex items-center gap-4 p-3 bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100/50 hover:border-blue-200 hover:translate-x-1 transition-all cursor-grab active:cursor-grabbing">
+<div class="flex flex-col items-center gap-1 text-slate-300 group-hover:text-blue-400 transition-colors">
+<span class="material-symbols-outlined text-lg">drag_indicator</span>
+</div>
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-500">02</span>
+<img alt="Tyn Church" class="w-10 h-10 rounded-lg object-cover" data-alt="Tyn Church gothic spires silhouetted against a dusky blue sky in Prague" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArkTG1Qad8yHQQATZTPtkxmr2kwdVKCV_4lGMcGpp58qvlRnC6szsimagi3sxuCqdPJ9INmqBjPODjmDqnOs-PhdYgIC-tvtegkUba287eQipy06K5UUR7i_OqSAcHxxDMj8CQNZDeq4f54HxiE-uRZ3dEXRvTRJF8bk-2oJAGvelpuzpHnYR2a6Y-D_cGSxjVwOIyiujrZD3_7X9ojHBUAO335AUXNjXy0Kfl0WFLM0cA8rpKIuZJbv6kcMbkF8yjs-9nQCIHvpeq"/>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-800">Tyn Church Spires</p>
+<p class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Narrative Point • 3:45 Duration</p>
+</div>
+<button class="p-2 text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<!-- Draggable Item 3 -->
+<div class="group flex items-center gap-4 p-3 bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100/50 hover:border-blue-200 hover:translate-x-1 transition-all cursor-grab active:cursor-grabbing">
+<div class="flex flex-col items-center gap-1 text-slate-300 group-hover:text-blue-400 transition-colors">
+<span class="material-symbols-outlined text-lg">drag_indicator</span>
+</div>
+<span class="w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-500">03</span>
+<img alt="Charles Bridge Entry" class="w-10 h-10 rounded-lg object-cover" data-alt="Stone statues on the edge of Charles Bridge with historical buildings in the blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCre_sSo43734u-qxhjzAIfX_cFbKhWl7J3ShBgbJkuuiSp4vM242jgyXlmUGUgEdtI9sUcAdmYvDLsSe0ExtA0OENZYhxQ4m2JIsb84GQTclBkLVCJOYqekbfLSSVd54K1PATxc2d2SBdIpJYLGDbTadM59zXK7AGzB_2QhDWKRdMu6a_edsd0iksBoU11Q_zVxWsX0XxsSExm-1LVWso-FRPDyBcehErTOPQlOzDSiHBxTKoAUApuFZFZJ0wFH7PJ4u3XVFIw5Nh1"/>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-800">Charles Bridge Entry</p>
+<p class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Gateway • 2:10 Duration</p>
+</div>
+<button class="p-2 text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+<button class="w-full py-4 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 hover:border-blue-300 hover:text-blue-500 transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+                                Add POI from Library
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-10 py-6 bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-sm">info</span>
+<span class="text-xs font-medium">Last autosaved at 14:02 PM</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-3 text-sm font-bold text-on-surface-variant hover:bg-slate-200 rounded-xl transition-all">Discard Changes</button>
+<button class="px-8 py-3 bg-gradient-to-tr from-primary to-primary-container text-white text-sm font-bold rounded-xl shadow-lg shadow-blue-900/10 hover:shadow-blue-900/20 hover:-translate-y-0.5 transition-all">Save &amp; Update Journey</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

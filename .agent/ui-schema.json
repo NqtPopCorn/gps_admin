@@ -1,0 +1,90 @@
+{
+  "uiSchemaVersion": "1.0",
+  "name": "GPS Admin UI (The Narrator)",
+  "tokens": {
+    "typography": {
+      "headline": {
+        "fontFamily": "Manrope"
+      },
+      "body": {
+        "fontFamily": "Inter"
+      }
+    },
+    "colors": {
+      "primary": "#00288e",
+      "primaryContainer": "#1e40af",
+      "secondaryContainer": "#c3ccfe",
+      "tertiary": "#611e00",
+      "surface": "#f7f9fb",
+      "surfaceContainerLow": "#f2f4f6",
+      "surfaceContainerLowest": "#ffffff",
+      "onSurface": "#191c1e",
+      "onSurfaceVariant": "#444653",
+      "outline": "#757684",
+      "error": "#ba1a1a"
+    },
+    "radius": {
+      "default": "0.125rem",
+      "lg": "0.25rem",
+      "xl": "0.5rem",
+      "full": "0.75rem"
+    }
+  },
+  "primitives": {
+    "icon": {
+      "type": "material-symbols-outlined"
+    },
+    "appShell": {
+      "sideNav": { "position": "fixed", "width": "w-64" },
+      "topNav": { "position": "fixed", "height": "h-16" },
+      "main": { "marginLeft": "ml-64", "paddingTop": "pt-20", "background": "surface" }
+    }
+  },
+  "components": {
+    "AppShell": {
+      "slots": ["children"],
+      "contains": ["SideNav", "TopNav"]
+    },
+    "StatCard": {
+      "props": ["icon", "title", "value", "chip?"]
+    },
+    "DataTable": {
+      "props": ["columns", "rows", "rowActions?", "pagination?"]
+    },
+    "Modal": {
+      "props": ["open", "onClose", "children"]
+    },
+    "SegmentedControl": {
+      "props": ["value", "options", "onChange"]
+    },
+    "StatusPill": {
+      "props": ["status"]
+    }
+  },
+  "screens": {
+    "LoginScreen": {
+      "layout": "centered glass card",
+      "contains": ["Email input", "Password input", "PrimaryGradient submit button"]
+    },
+    "DashboardScreen": {
+      "layout": "AppShell + page header + stat bento grid + recent activity table",
+      "contains": ["Page header", "3-4 stat blocks", "Recent Activity table"]
+    },
+    "PoiManagementScreen": {
+      "layout": "AppShell + page header + 3 stat cards + table controls + linguist-style table + tip card",
+      "contains": ["Search/filter input", "Sort/Export buttons", "Table with hover row actions", "PoiEditorModal overlay"]
+    },
+    "PoiEditorModal": {
+      "layout": "Modal overlay with 12-col editor grid",
+      "contains": [
+        "Core Identity form (name, category, status)",
+        "Geographic Location editor (lat, lng, radius)",
+        "Multilingual Narrations segmented control",
+        "TTS Narrative textarea",
+        "Preview Audio card",
+        "Discard + Save Changes footer buttons"
+      ]
+    }
+  }
+}
+

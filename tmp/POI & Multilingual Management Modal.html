@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Global Narrator | POI Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbce",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "tertiary-container": "#872d00",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-highest": "#e0e3e5",
+              "error": "#ba1a1a",
+              "secondary-container": "#c3ccfe",
+              "outline": "#757684",
+              "on-primary-fixed-variant": "#173bab",
+              "primary-fixed": "#dde1ff",
+              "tertiary-fixed-dim": "#ffb59a",
+              "on-tertiary-fixed": "#380d00",
+              "primary-container": "#1e40af",
+              "on-secondary-container": "#4c5680",
+              "surface-tint": "#3755c3",
+              "on-secondary-fixed-variant": "#3b446e",
+              "secondary-fixed": "#dde1ff",
+              "on-tertiary-fixed-variant": "#802a00",
+              "surface-container": "#eceef0",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "primary": "#00288e",
+              "primary-fixed-dim": "#b8c4ff",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary-fixed": "#0e1840",
+              "on-primary-container": "#a8b8ff",
+              "inverse-primary": "#b8c4ff",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-container": "#ffa583",
+              "on-surface-variant": "#444653",
+              "outline-variant": "#c4c5d5",
+              "secondary": "#525c87",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed": "#001453",
+              "secondary-fixed-dim": "#bbc4f6",
+              "tertiary": "#611e00",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "on-background": "#191c1e",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .tonal-layering-no-borders { border: none !important; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-slate-200/15 bg-slate-50/80 backdrop-blur-xl flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold text-blue-900 font-headline tracking-tight">The Narrator</h1>
+<p class="text-xs text-blue-700/60 font-medium uppercase tracking-widest mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-headline font-semibold tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-r-full border-l-4 border-blue-700" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-headline font-semibold tracking-tight">POI Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="font-headline font-semibold tracking-tight">Tour Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-headline font-semibold tracking-tight">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-headline font-semibold tracking-tight">Help Center</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/70 backdrop-blur-md z-40 flex justify-between items-center px-8 border-b border-slate-100">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+<span class="material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full ml-2 text-on-surface" placeholder="Search POIs, cities, or scripts..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-blue-600 transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-500 hover:text-blue-600 transition-all">
+<span class="material-symbols-outlined">translate</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-100"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-outline">Global Curator</p>
+</div>
+<img alt="Administrator Portrait" class="w-8 h-8 rounded-full object-cover" data-alt="professional headshot of a smiling man in a creative office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeI0LzZxNeGeQVF8DnVfbPyT5FMsqhh3iTLT2V4Dehd2dVErC8JaWhVAG-O_8Z6YnBowox87i_up85y6LxjgL4Fyz67lNdgyX4vIPqpPHxk32Xh8P59ySFDwyh3q8JW3lUJQMIMOJVEG9mRUfSQOdHLH3CmCc5npwS_BbsweusNWh2R_2IbQfZQh4jOZur_FpoR3p8cCgBRUd0fXL922DNupVoN5rxLMx3H5v19SzuKjtXWwCWF5_Gj9sqda5lTuBCUnlKQDlZEBo9"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-20 p-8 min-h-screen bg-surface">
+<!-- Mock Page Content Background -->
+<div class="max-w-6xl mx-auto opacity-40 pointer-events-none select-none">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tighter text-on-surface">Point of Interest Registry</h2>
+<p class="text-on-surface-variant mt-2 font-medium">Manage and curate global storytelling locations.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-2xl shadow-blue-900/5 min-w-[200px]">
+<p class="text-outline text-xs font-bold uppercase tracking-widest">Active POIs</p>
+<p class="text-3xl font-headline font-extrabold text-primary mt-1">1,284</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div class="col-span-2 bg-surface-container-low h-96 rounded-2xl"></div>
+<div class="bg-surface-container-low h-96 rounded-2xl"></div>
+</div>
+</div>
+<!-- THE MODAL OVERLAY -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-on-surface/20 backdrop-blur-sm">
+<!-- Modal Container -->
+<div class="bg-surface-container-lowest w-full max-w-4xl max-h-[921px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-8 py-6 flex justify-between items-center border-b border-slate-50">
+<div>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest mb-2 inline-block">Editor Mode</span>
+<h3 class="text-2xl font-headline font-extrabold text-on-surface tracking-tight">Edit Point of Interest</h3>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors text-outline">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="flex-1 overflow-y-auto p-8 no-scrollbar">
+<div class="grid grid-cols-12 gap-10">
+<!-- Left Column: Core Data -->
+<div class="col-span-12 lg:col-span-5 space-y-8">
+<section>
+<label class="block text-xs font-bold text-outline uppercase tracking-widest mb-3">Core Identity</label>
+<div class="space-y-4">
+<div class="group">
+<p class="text-[11px] font-semibold text-primary mb-1 ml-1">POI Name</p>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-medium text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" type="text" value="Notre-Dame de Paris"/>
+</div>
+<div class="group">
+<p class="text-[11px] font-semibold text-primary mb-1 ml-1">Category</p>
+<select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 font-medium text-on-surface focus:ring-2 focus:ring-primary/20 transition-all appearance-none">
+<option>Historical Landmark</option>
+<option>Museum</option>
+<option>Natural Wonder</option>
+<option>Urban Square</option>
+</select>
+</div>
+</div>
+</section>
+<section>
+<label class="block text-xs font-bold text-outline uppercase tracking-widest mb-3">Geographic Location</label>
+<div class="bg-surface-container-low rounded-2xl p-4 space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">map</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Paris, France</p>
+<p class="text-[10px] text-outline font-mono">48.8530° N, 2.3499° E</p>
+</div>
+</div>
+<div class="h-32 rounded-xl overflow-hidden relative">
+<img alt="Map view of Paris center" class="w-full h-full object-cover" data-location="Paris" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzl83Zk4sDSLuc5clThRRTJJYx1eacu-ZRvH3uCtbWlYXVG7xCGaYgVfCo97-mO_Y_jn79tyJrZvNDC3_Y-wDwJTsroMTz5-2VGL8ZLZLbKzVst129t5W6EY1KRedTSgZu8V8sDEI01b0bBMaQOtGx8fnUCzkuq4PibgkwG0yIX8n1uR1Kx7YUGF2bZoYxGJJe7efgq9406sKk3954LP7FXJZOiiw-lrrcOAB1f2bDszsHhCR3xBsRsf7k7CZOBtWZ6pk6STO37TP6"/>
+<div class="absolute inset-0 bg-primary/10 flex items-center justify-center">
+<div class="w-4 h-4 bg-primary rounded-full border-2 border-white animate-pulse"></div>
+</div>
+</div>
+<button class="w-full py-2 text-[11px] font-bold text-primary hover:bg-white rounded-lg transition-all border border-primary/5">
+                                        Update Coordinates
+                                    </button>
+</div>
+</section>
+</div>
+<!-- Right Column: Multilingual Narrations -->
+<div class="col-span-12 lg:col-span-7 border-l border-slate-100 lg:pl-10">
+<div class="flex items-center justify-between mb-6">
+<label class="block text-xs font-bold text-outline uppercase tracking-widest">Multilingual Narrations</label>
+<button class="text-primary flex items-center gap-1 hover:underline text-xs font-bold">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                                    Add Language
+                                </button>
+</div>
+<!-- Language Segmented Control -->
+<div class="bg-surface-container-high p-1 rounded-xl flex gap-1 mb-6">
+<button class="flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-surface-container-lowest shadow-sm border border-slate-200/10">
+                                    English (US)
+                                </button>
+<button class="flex-1 py-2 rounded-lg text-xs font-bold text-outline hover:text-on-surface transition-all">
+                                    Vietnamese
+                                </button>
+<button class="flex-1 py-2 rounded-lg text-xs font-bold text-outline hover:text-on-surface transition-all">
+                                    French
+                                </button>
+</div>
+<!-- Editor Area -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">record_voice_over</span>
+<p class="text-xs font-bold text-on-surface">TTS Narrative Script</p>
+</div>
+<div class="flex gap-4">
+<button class="text-[10px] font-bold text-outline hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">history</span>
+                                            History
+                                        </button>
+<button class="text-[10px] font-bold text-outline hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">magic_button</span>
+                                            Optimize
+                                        </button>
+</div>
+</div>
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-sm leading-relaxed text-on-surface focus:ring-2 focus:ring-primary/20 transition-all min-h-[220px]" placeholder="Write the audio guide script here...">Founded in 1163, Notre-Dame de Paris stands as a masterpiece of French Gothic architecture. Its world-renowned stained glass, particularly the three rose windows, dates back to the 13th century. Despite the tragic fire in 2019, the cathedral remains a symbol of resilience and timeless craftsmanship. In this chapter, we explore the intricate flying buttresses that allowed these massive walls to reach for the heavens...</textarea>
+<div class="bg-blue-50/50 rounded-2xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white shadow-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<div>
+<p class="text-xs font-bold text-primary">Preview Audio</p>
+<p class="text-[10px] text-on-primary-fixed-variant">Voice: "Marcus" (English-Neutral)</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-1 w-24 bg-primary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/3"></div>
+</div>
+<span class="text-[10px] font-mono text-outline">0:42 / 2:15</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-8 py-6 bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-sm">info</span>
+<p class="text-[10px] font-medium italic">Changes will be pushed to CDN globally upon saving.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-lg text-sm font-bold text-outline hover:bg-surface-container-high transition-all">
+                            Discard
+                        </button>
+<button class="px-8 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-br from-primary to-primary-container shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 transition-all">
+                            Save Changes
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

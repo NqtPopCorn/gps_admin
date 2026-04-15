@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>POI Management | The Global Narrator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#f7f9fb",
+                        "on-primary-container": "#a8b8ff",
+                        "secondary": "#525c87",
+                        "tertiary": "#611e00",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#3755c3",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#b8c4ff",
+                        "on-primary-fixed-variant": "#173bab",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-container": "#872d00",
+                        "on-secondary-container": "#4c5680",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#001453",
+                        "tertiary-fixed-dim": "#ffb59a",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary-fixed": "#ffdbce",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "secondary-container": "#c3ccfe",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-fixed-variant": "#3b446e",
+                        "primary-container": "#1e40af",
+                        "secondary-fixed-dim": "#bbc4f6",
+                        "outline": "#757684",
+                        "on-surface-variant": "#444653",
+                        "secondary-fixed": "#dde1ff",
+                        "primary": "#00288e",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c4c5d5",
+                        "on-tertiary-container": "#ffa583",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#802a00",
+                        "on-secondary-fixed": "#0e1840"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar (Predicted Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-slate-200/15 dark:border-slate-800/15 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex flex-col py-6 shadow-2xl shadow-blue-900/5 dark:shadow-none z-50">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">language</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-blue-900 dark:text-blue-100 font-headline leading-tight">The Narrator</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Admin Console</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-0">
+<div class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 ease-in-out hover:translate-x-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Dashboard</span>
+</a>
+<!-- Active Tab: POI Management -->
+<a class="flex items-center gap-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-r-full border-l-4 border-blue-700 dark:border-blue-400 transition-all duration-300 ease-in-out translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">POI Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 ease-in-out hover:translate-x-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Tour Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 ease-in-out hover:translate-x-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Settings</span>
+</a>
+</div>
+</nav>
+<div class="mt-auto px-0 border-t border-slate-100 dark:border-slate-800 pt-6">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all duration-300 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-['Manrope'] font-semibold tracking-tight">Help Center</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (Predicted Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md flex justify-between items-center px-8 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500/20 font-['Inter'] transition-all" placeholder="Search global assets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:text-blue-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-blue-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">translate</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none">Admin User</p>
+<p class="text-[10px] text-slate-400 mt-1">Super Administrator</p>
+</div>
+<img alt="Administrator Portrait" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" data-alt="professional portrait of a confident administrator with a neutral expression in high-key studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3un8_GHspvPq10aC0PPRbvB-ee43ZJS0l5fwX-4nTUXdzL1BJvLjBd93n6jiVNdFtAVzTaTuhRkXDsWFaYKlA6zIGTbEWVOdXgBdss5DEBZ_A9ugt66K38FOPyej_z9MafocGiDHQmzUzz5haEGmnziybWzjaoXtvE0mN60uXfl5b4tcTQMCrhSlXyfGaKOxQnfnrrQOr8237OUumJW4VUTd8OEQpcp01e4lSDp-J2fJGbouWY4PKY0DEV9cXgCUEdF29FEjtrlB2"/>
+</div>
+</div>
+</header>
+<!-- Canvas Area -->
+<section class="pt-24 pb-12 px-12 max-w-[1600px] mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-2">POI Management</h2>
+<p class="text-on-surface-variant font-body">Curate and organize regional points of interest for audio narratives.</p>
+</div>
+<button class="px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-headline font-bold flex items-center gap-2 hover:translate-y-[-2px] transition-all shadow-lg shadow-blue-900/10">
+<span class="material-symbols-outlined">add</span>
+                    Add New POI
+                </button>
+</div>
+<!-- Stats Overview (Asymmetric Bento Lite) -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between group hover:bg-primary-fixed/20 transition-colors">
+<div>
+<p class="text-sm font-label font-medium text-on-surface-variant mb-1">Total POIs</p>
+<h3 class="text-3xl font-headline font-extrabold text-on-surface">1,284</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between group hover:bg-tertiary-fixed/20 transition-colors">
+<div>
+<p class="text-sm font-label font-medium text-on-surface-variant mb-1">Active Narratives</p>
+<h3 class="text-3xl font-headline font-extrabold text-on-surface">942</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic_external_on</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between group hover:bg-secondary-container/20 transition-colors">
+<div>
+<p class="text-sm font-label font-medium text-on-surface-variant mb-1">Pending Updates</p>
+<h3 class="text-3xl font-headline font-extrabold text-on-surface">18</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync</span>
+</div>
+</div>
+</div>
+<!-- Management Table Container -->
+<div class="bg-surface-container-low rounded-3xl overflow-hidden shadow-sm">
+<!-- Table Controls -->
+<div class="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/40 border-b border-white/40">
+<div class="relative w-full md:w-96 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">filter_list</span>
+<input class="w-full bg-white border-none rounded-2xl py-3 pl-12 pr-4 text-sm font-body shadow-sm ring-1 ring-slate-100 focus:ring-2 focus:ring-blue-500/20 transition-all" placeholder="Filter by name, city, or tag..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-white rounded-xl transition-all">
+<span class="material-symbols-outlined text-lg">sort</span> Sort
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-white rounded-xl transition-all">
+<span class="material-symbols-outlined text-lg">download</span> Export
+                        </button>
+</div>
+</div>
+<!-- The "Linguist" Table -->
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="text-left text-[11px] uppercase tracking-[0.15em] font-bold text-slate-400">
+<th class="px-8 py-6">Image</th>
+<th class="px-8 py-6">POI Name</th>
+<th class="px-8 py-6">City</th>
+<th class="px-8 py-6">Status</th>
+<th class="px-8 py-6 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100/50">
+<!-- Row 1 -->
+<tr class="group hover:bg-white/60 transition-colors">
+<td class="px-8 py-5">
+<div class="w-16 h-12 rounded-lg overflow-hidden relative shadow-sm">
+<img alt="Eiffel Tower" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="atmospheric wide shot of the Eiffel Tower at dusk with city lights starting to twinkle in soft blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeY6yquxBtRBG2TDXRdaCyxWM4IBWLMDL_wVE__fwec8xzNmi2AsD8yHHLr_MdJVtfySQWbJ7ZgSREb7o8ajiGvJcftT1OufUMIi4Lb_Z4dzfgPTFYIAXRz1ZBuUgd5ykOkhf8PGgplaUw-vBO38P7lR-Xob17z96oEftYITXht7pNurRp1zq3jUjuuSOAxxiP1bJef0nLDd-bLL4fFFpGzjRbT1kFDhZ7DbQry0FDdommd50qecu2f31Vp1rl4fG0qlQvC7R7Nq13"/>
+</div>
+</td>
+<td class="px-8 py-5">
+<p class="font-headline font-bold text-on-surface">Eiffel Tower</p>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="secondary-container px-1.5 py-0.5 rounded text-[10px] font-bold text-on-secondary-container">FR</span>
+                                        L'histoire de Gustave
+                                    </p>
+</td>
+<td class="px-8 py-5 font-medium text-slate-600">Paris</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full border border-green-100">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary-fixed/30 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/50 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 (Zebra Stripe Example) -->
+<tr class="bg-surface-container-low group hover:bg-white/60 transition-colors">
+<td class="px-8 py-5">
+<div class="w-16 h-12 rounded-lg overflow-hidden relative shadow-sm">
+<img alt="Sagrada Familia" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="detailed close-up of Sagrada Familia cathedral spires against a vibrant warm sunset sky in Barcelona" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnlm4wCf2OhyNgXIgH5rChjHCYh1ICMeyuG-vPLVF_UZrVUAizDb3SGb2iwLm3HHzhEBBfVXDXfaVIgLl9iIVvcJfMLOkfEhV27Hi4X2TW2MN7EYsTpkuapKgFQkrWsHjqKjl0GBAas4YMvFWerNZPF8DnNCyZmbUPiOQXtD0pF7XKEgIi3UD44eYpBu_Z1yutkVsteLXBJRZLvek3BMe7QcWvtklqpEbi2QBr9L_Of8t1ZZJubIT3tcHWv3t-w1E-q831xD2xFUmr"/>
+</div>
+</td>
+<td class="px-8 py-5">
+<p class="font-headline font-bold text-on-surface">Sagrada Família</p>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="secondary-container px-1.5 py-0.5 rounded text-[10px] font-bold text-on-secondary-container">ES</span>
+                                        Gaudí's Masterpiece
+                                    </p>
+</td>
+<td class="px-8 py-5 font-medium text-slate-600">Barcelona</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full border border-green-100">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary-fixed/30 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/50 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-white/60 transition-colors">
+<td class="px-8 py-5">
+<div class="w-16 h-12 rounded-lg overflow-hidden relative shadow-sm">
+<img alt="Colosseum" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="low angle view of the Roman Colosseum under a soft morning haze with golden light hitting the ancient stone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBwNcd00RuRsF5341SH_CPxE87kN0ydb5nwmfNYPT24RBIPyO9qML11Us3kPFg7qZIbmjcf43IpunXXeWF_qZQQr5Cyzo1mAJfgmRf1_SoBrK6_Xi38hDGebAhdy-hbbm82Rqvac3xHibsIn6o1uwQBRErlUj0iTQpvXJUYEvBuVqB5IWtqXXv9vCULGpl6X3L_U74MZQJ9qXOn17PIMr2VMBGyFDrDUdltuxaQ2JRgS_QsCDXHN5rf7WhqbulyItVdOdJdi_LY_wk"/>
+</div>
+</td>
+<td class="px-8 py-5">
+<p class="font-headline font-bold text-on-surface">The Colosseum</p>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="secondary-container px-1.5 py-0.5 rounded text-[10px] font-bold text-on-secondary-container">IT</span>
+                                        Gladiator Echoes
+                                    </p>
+</td>
+<td class="px-8 py-5 font-medium text-slate-600">Rome</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full border border-slate-200">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                        Inactive
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary-fixed/30 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/50 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 (Zebra) -->
+<tr class="bg-surface-container-low group hover:bg-white/60 transition-colors">
+<td class="px-8 py-5">
+<div class="w-16 h-12 rounded-lg overflow-hidden relative shadow-sm">
+<img alt="Tower Bridge" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Tower Bridge in London reflected in the Thames river during blue hour with glowing orange bridge lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-SX1ECYuNBGrvBoGd6xRC_Zk1hg_TgIgtd_aIp_0iIQBJjWph-lIKA5SEtmyFpMuSdO4197ZABLvW05sIDIk3VDpsXXiSWeBwm7G0eKg4ELqc0eX5O0vdS1guNLPtcGyYpFTiJy1A2JfTcoeCA2rXLiWcQmp-PnlqxDkJhL7ELYnmbalmyJqRq2s3AANzuB_vA2Pz32FmK7bDIPehnQmY0D0K3hRAe3LCZKSCfhrakObkdUcW9kfptR26WJxnrGYGazaqO3ltysPI"/>
+</div>
+</td>
+<td class="px-8 py-5">
+<p class="font-headline font-bold text-on-surface">Tower Bridge</p>
+<p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="secondary-container px-1.5 py-0.5 rounded text-[10px] font-bold text-on-secondary-container">EN</span>
+                                        Victorian Engineering
+                                    </p>
+</td>
+<td class="px-8 py-5 font-medium text-slate-600">London</td>
+<td class="px-8 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full border border-green-100">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary-fixed/30 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/50 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-8 py-6 bg-surface-container-low border-t border-slate-100 flex items-center justify-between">
+<p class="text-xs font-medium text-slate-400">Showing 1 to 4 of 1,284 POIs</p>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 text-xs font-bold transition-all">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 text-xs font-bold transition-all">3</button>
+<span class="px-1 text-slate-300">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 text-xs font-bold transition-all">321</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contextual Help / Tips (Glassmorphism card) -->
+<div class="mt-12 p-8 rounded-3xl bg-gradient-to-r from-blue-600 to-primary-container text-white overflow-hidden relative shadow-2xl shadow-blue-900/20">
+<div class="relative z-10 max-w-2xl">
+<h4 class="text-xl font-headline font-bold mb-3">Narrative Tip</h4>
+<p class="text-white/80 leading-relaxed font-body">
+                        Points of Interest with high-quality thumbnails and primary language markers receive 40% more engagement. Ensure your "Masterpiece" narratives have at least three localized versions for maximum global reach.
+                    </p>
+<button class="mt-6 px-5 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-xl text-sm font-bold transition-all">
+                        View Editorial Guidelines
+                    </button>
+</div>
+<!-- Abstract Texture Decorative -->
+<div class="absolute right-[-5%] top-[-20%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute right-[5%] bottom-[-30%] w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
+</div>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,68 @@
+@startuml
+!theme plain
+skinparam maxmessagesize 150
+skinparam responseMessageBelowArrow true
+
+actor "Admin" as admin
+participant "Frontend\n(React Dashboard)" as fe
+participant "Backend\n(Django API)" as be
+
+== 1. Khởi tạo & Lấy danh sách Tour ==
+admin -> fe: Mở tab "Dynamic Tour QR"
+activate fe
+fe -> be: GET /api/tours
+activate be
+be --> fe: Trả về danh sách [Tours]
+deactivate be
+fe --> admin: Render giao diện danh sách Tour (w/ Skeletons)
+deactivate fe
+
+== 2. Xem QR Code của một Tour ==
+admin -> fe: Click chọn một Tour (id)
+activate fe
+fe -> fe: Xóa QR data cũ & Set isRefreshing = true
+fe -> be: GET /api/tours/{id}/qr-code (fetchTourQR)
+activate be
+be -> be: Xử lý logic DB\n(Trả code cũ nếu còn hạn,\ntạo code mới nếu hết hạn)
+be --> fe: Trả về { code, expires_in, ... }
+deactivate be
+fe -> fe: Lưu 'code' & Bắt đầu Timer(expires_in)
+fe --> admin: Hiển thị QR Code & Thanh Progress đếm ngược
+deactivate fe
+
+== 3. Auto-Polling (Tự động làm mới) ==
+loop Chạy ngầm mỗi giây
+    fe -> fe: Giảm timeLeft đi 1s
+    opt Khi timeLeft <= 1
+        fe -> be: GET /api/tours/{id}/qr-code (Auto-fetch)
+        activate be
+        be -> be: Tạo activation code mới
+        be --> fe: Trả về { new_code, expires_in=300 }
+        deactivate be
+        fe -> fe: Reset Timer & Cập nhật UI
+    end
+end
+
+== 4. Thao tác thủ công của Admin ==
+opt Bấm "Tạo mã mới ngay" (Force Refresh)
+    admin -> fe: Click "Tạo mã mới ngay"
+    activate fe
+    fe -> be: POST /api/tours/{id}/qr-code/force-refresh
+    activate be
+    be -> be: Invalid mã hiện tại & Force tạo mã mới
+    be --> fe: Trả về { new_code, expires_in=300 }
+    deactivate be
+    fe -> fe: Cập nhật QR Canvas & Reset Timer
+    fe --> admin: Hiển thị QR Code mới (màu xanh)
+    deactivate fe
+end
+
+opt Bấm "Tải về" (Download)
+    admin -> fe: Click "Tải về"
+    activate fe
+    fe -> fe: downloadQRCanvas()\nConvert Canvas -> DataURL (PNG)
+    fe --> admin: Trình duyệt tải file "tour-qr-{code}.png"
+    deactivate fe
+end
+
+@enduml

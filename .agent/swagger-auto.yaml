@@ -1,0 +1,1928 @@
+openapi: 3.0.3
+info:
+  title: Tourist Audio Guide API
+  version: 1.0.0
+  description: API documentation for the Tourist Audio Guide server
+paths:
+  /api/admin/nls/translate:
+    post:
+      operationId: admin_nls_translate_create
+      description: Admin-only endpoint to translate text using Google Gen AI.
+      summary: Translate text
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TranslateRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TranslateRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslateResponseWrapper'
+          description: ''
+  /api/admin/nls/tts:
+    post:
+      operationId: admin_nls_tts_create
+      description: Admin-only endpoint to generate audio using Edge TTS. Returns attached
+        blob audio file.
+      summary: Generate text-to-speech
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TTSRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TTSRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TTSRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+          description: ''
+  /api/admin/pois/:
+    get:
+      operationId: admin_pois_list
+      description: Retrieve all POIs with optional type/status filtering and pagination.
+        Requires admin token.
+      summary: List all POIs (admin)
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: 'Items per page (default: 20, max: 100)'
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: 'Page number (default: 1)'
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+        description: Filter by status
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - drink
+          - food
+          - historical
+          - museum
+          - other
+          - park
+        description: Filter by POI type
+      tags:
+      - Admin-POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOIListResponse'
+          description: Paginated list of POIs
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+    post:
+      operationId: admin_pois_create
+      description: Create a new Point of Interest with default language content. Accepts
+        multipart/form-data (supports image + audio file upload). Requires admin token.
+      summary: Create POI
+      tags:
+      - Admin-POI
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreatePOIRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOICreateResponse'
+          description: POI created successfully
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '409':
+          description: Slug already exists
+  /api/admin/pois/{id}:
+    get:
+      operationId: admin_pois_retrieve
+      description: Retrieve full POI details including all admin fields. Requires
+        admin token.
+      summary: Get POI detail (admin)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOIDetailResponse'
+          description: POI detail
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI not found
+    patch:
+      operationId: admin_pois_partial_update
+      description: Partially update POI fields. Accepts multipart/form-data (supports
+        image upload). Only provided fields are updated. Requires admin token.
+      summary: Update POI
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdatePOIRequest'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOIListCreateResponse'
+          description: POI updated successfully
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI not found
+    delete:
+      operationId: admin_pois_destroy
+      description: Permanently delete a POI and all its localizations. Requires admin
+        token.
+      summary: Delete POI
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: POI deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI not found
+  /api/admin/pois/{poi_id}/localizations:
+    get:
+      operationId: admin_pois_localizations_retrieve
+      description: Retrieve all language versions (localizations) for the given POI.
+        Requires admin token.
+      summary: Get all POI localizations
+      parameters:
+      - in: path
+        name: poi_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOILocalizationListResponse'
+          description: List of localizations
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI not found
+    post:
+      operationId: admin_pois_localizations_create
+      description: Add or update POI content (name, description, audio) for a specific
+        language. If a localization for that language already exists it will be overwritten.
+        Accepts multipart/form-data (supports audio file upload).
+      summary: Create or update translated content
+      parameters:
+      - in: path
+        name: poi_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LocalizationWriteRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPOILocalizationResponse'
+          description: Localization updated
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI not found
+  /api/admin/pois/{poi_id}/localizations/{lang_code}:
+    delete:
+      operationId: admin_pois_localizations_destroy
+      description: Remove POI content for a specific language. Requires admin token.
+      summary: Delete specific localization
+      parameters:
+      - in: path
+        name: lang_code
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: poi_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: Localization deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: POI or localization not found
+  /api/admin/tours/:
+    get:
+      operationId: admin_tours_list
+      description: Retrieve all tours with pagination. Requires admin token.
+      summary: List all tours (admin)
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: 'Items per page (default: 20, max: 100)'
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: 'Page number (default: 1)'
+      tags:
+      - Admin-Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourListResponse'
+          description: Paginated list of tours
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+    post:
+      operationId: admin_tours_create
+      description: Create a new draft tour collection. Requires admin token.
+      summary: Create tour
+      tags:
+      - Admin-Tour
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateTourRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourCreateResponse'
+          description: Tour created successfully
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+  /api/admin/tours/{id}:
+    put:
+      operationId: admin_tours_update
+      description: Update tour name and/or description. Requires admin token.
+      summary: Update tour
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateTourRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourUpdateResponse'
+          description: Tour updated successfully
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour not found
+    delete:
+      operationId: admin_tours_destroy
+      description: Delete a tour and all its points. Requires admin token.
+      summary: Delete tour
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: Tour deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour not found
+  /api/admin/tours/{tour_id}/points:
+    get:
+      operationId: admin_tours_points_retrieve
+      description: Retrieve all POIs in a tour ordered by position. Requires admin
+        token.
+      summary: Get tour points
+      parameters:
+      - in: path
+        name: tour_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourPointListResponse'
+          description: List of tour points
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour not found
+    post:
+      operationId: admin_tours_points_create
+      description: Add an existing POI to a tour at a specific position. Positions
+        must be unique within a tour. Requires admin token.
+      summary: Add POI to tour
+      parameters:
+      - in: path
+        name: tour_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTourPointRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddTourPointRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddTourPointRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourPointCreateResponse'
+          description: POI added to tour
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour or POI not found
+        '409':
+          description: Position already occupied
+  /api/admin/tours/{tour_id}/points-position:
+    put:
+      operationId: admin_tours_points_position_update
+      description: Reorder a POI within a tour by updating its position. Requires
+        admin token.
+      summary: Update tour point position
+      parameters:
+      - in: path
+        name: tour_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UpdateTourPointRequest'
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UpdateTourPointRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UpdateTourPointRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminTourPointUpdateResponse'
+          description: Position updated
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour or point not found
+  /api/admin/tours/{tour_id}/points/{point_id}:
+    delete:
+      operationId: admin_tours_points_destroy
+      description: Remove a specific point (POI) from a tour. Requires admin token.
+      summary: Remove POI from tour
+      parameters:
+      - in: path
+        name: point_id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: tour_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Admin-Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: Point removed from tour
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden – admin only
+        '404':
+          description: Tour or point not found
+  /api/auth/login:
+    post:
+      operationId: auth_login_create
+      description: Authenticate user and receive a JWT Bearer token.
+      summary: User login
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    message: Login successful
+                    data:
+                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                      token_type: Bearer
+                      user:
+                        id: 550e8400-e29b-41d4-a716-446655440000
+                        email: user@example.com
+                        role: tourist
+                        created_at: '2024-01-01T00:00:00Z'
+                        is_active: true
+          description: Login successful
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Invalid credentials
+  /api/auth/register:
+    post:
+      operationId: auth_register_create
+      description: Create a new user account with email and password (minimum 8 characters).
+      summary: Register new user
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    message: User registered successfully
+                    data:
+                      id: 550e8400-e29b-41d4-a716-446655440000
+                      email: user@example.com
+                      role: tourist
+                      created_at: '2024-01-01T00:00:00Z'
+                      is_active: true
+          description: User registered successfully
+        '400':
+          description: Invalid request parameters
+        '409':
+          description: Email already exists
+  /api/pois/{id}:
+    get:
+      operationId: pois_retrieve
+      description: Retrieve detailed information about a single active POI in the
+        specified language.
+      summary: Get POI detail
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+          - fr
+          - ja
+          - vi
+          - zh
+        description: Language code for localized content
+        required: true
+      tags:
+      - POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/POIDetailResponse'
+          description: POI detail
+        '400':
+          description: Missing lang parameter
+        '404':
+          description: POI not found
+  /api/pois/nearby:
+    get:
+      operationId: pois_nearby_retrieve
+      description: Retrieve active Points of Interest near a given GPS coordinate.
+        Results are sorted by distance (closest first) and returned in the requested
+        language.
+      summary: Get nearby POIs
+      parameters:
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+          - fr
+          - ja
+          - vi
+          - zh
+        description: Language code for localized content
+        required: true
+      - in: query
+        name: lat
+        schema:
+          type: number
+          format: float
+        description: Latitude coordinate
+        required: true
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: 'Max number of results (default: 20, max: 100)'
+      - in: query
+        name: lng
+        schema:
+          type: number
+          format: float
+        description: Longitude coordinate
+        required: true
+      - in: query
+        name: radius
+        schema:
+          type: integer
+        description: 'Search radius in meters (default: 5000)'
+      tags:
+      - POI
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/POINearbyResponse'
+          description: List of nearby POIs
+        '400':
+          description: Missing or invalid query parameters
+  /api/subscription/:
+    get:
+      operationId: subscription_retrieve
+      description: Retrieve the latest active subscription for the authenticated user.
+        Returns 404 if the user has no active subscription.
+      summary: Get current subscription
+      tags:
+      - Subscription
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+          description: Active subscription info
+        '401':
+          description: Unauthorized – missing or invalid token
+        '404':
+          description: No active subscription found
+  /api/subscription/subscribe:
+    post:
+      operationId: subscription_subscribe_create
+      description: Subscribe the authenticated user to a plan. Provide a valid plan_id
+        and a supported payment method. The subscription is set to expire 30 days
+        from creation.
+      summary: Create subscription
+      tags:
+      - Subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscribeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscribeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscribeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+          description: Subscription created successfully
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized – missing or invalid token
+        '404':
+          description: Plan not found
+  /api/tours/:
+    get:
+      operationId: tours_list
+      description: Retrieve all available tour collections with pagination.
+      summary: Get all tours
+      parameters:
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+          - fr
+          - ja
+          - vi
+          - zh
+        description: Language code for POI content
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: 'Items per page (default: 20, max: 100)'
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: 'Page number (default: 1)'
+      tags:
+      - Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourListResponse'
+          description: Paginated list of tours
+  /api/tours/{id}:
+    get:
+      operationId: tours_retrieve
+      description: Get a tour with its ordered list of POIs, localized to the requested
+        language.
+      summary: Get tour detail
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+          - fr
+          - ja
+          - vi
+          - zh
+        description: Language code for POI content
+        required: true
+      tags:
+      - Tour
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TourDetailResponse'
+          description: Tour detail with POIs
+        '400':
+          description: Missing lang parameter
+        '404':
+          description: Tour not found
+components:
+  schemas:
+    AddTourPointRequest:
+      type: object
+      properties:
+        poi_id:
+          type: string
+          minLength: 1
+        position:
+          type: integer
+          minimum: 1
+      required:
+      - poi_id
+      - position
+    AdminPOICreateResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/POIDetail'
+      required:
+      - data
+      - message
+      - status
+    AdminPOIDetailResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/POIDetail'
+      required:
+      - data
+      - message
+      - status
+    AdminPOIListCreateResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/POIDetail'
+      required:
+      - data
+      - message
+      - status
+    AdminPOIListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/AdminPOIListResponseData'
+      required:
+      - data
+      - message
+      - status
+    AdminPOIListResponseData:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/POIDetail'
+        total:
+          type: integer
+        totalPage:
+          type: integer
+      required:
+      - results
+      - total
+      - totalPage
+    AdminPOILocalizationListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalizationResponse'
+        status:
+          type: integer
+        message:
+          type: string
+      required:
+      - data
+      - message
+      - status
+    AdminPOILocalizationResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/LocalizationResponse'
+      required:
+      - data
+      - message
+      - status
+    AdminTourCreateResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/Tour'
+      required:
+      - data
+      - message
+      - status
+    AdminTourListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/AdminTourListResponseData'
+      required:
+      - data
+      - message
+      - status
+    AdminTourListResponseData:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tour'
+        total:
+          type: integer
+        totalPage:
+          type: integer
+      required:
+      - results
+      - total
+      - totalPage
+    AdminTourPointCreateResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/TourPointDetailInline'
+      required:
+      - data
+      - message
+      - status
+    AdminTourPointListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourPointDetailInline'
+        status:
+          type: integer
+        message:
+          type: string
+      required:
+      - data
+      - message
+      - status
+    AdminTourPointUpdateResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourPointDetailInline'
+        status:
+          type: integer
+        message:
+          type: string
+      required:
+      - data
+      - message
+      - status
+    AdminTourUpdateResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/Tour'
+      required:
+      - data
+      - message
+      - status
+    CreatePOIRequest:
+      type: object
+      properties:
+        default_lang:
+          type: string
+          minLength: 1
+          default: vi
+          maxLength: 10
+        default_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        default_description:
+          type: string
+        default_audio:
+          type: string
+          format: binary
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        radius:
+          type: integer
+          maximum: 500
+          minimum: 10
+        image:
+          type: string
+          format: binary
+        type:
+          $ref: '#/components/schemas/PoiTypeEnum'
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+      required:
+      - default_audio
+      - default_description
+      - default_name
+      - image
+      - latitude
+      - longitude
+      - radius
+      - slug
+      - type
+    CreateTourRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          format: binary
+        status:
+          $ref: '#/components/schemas/Status68aEnum'
+      required:
+      - name
+    LangCodeEnum:
+      enum:
+      - vi
+      - en
+      - fr
+      - zh
+      - ja
+      type: string
+      description: |-
+        * `vi` - vi
+        * `en` - en
+        * `fr` - fr
+        * `zh` - zh
+        * `ja` - ja
+    LocalizationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        poi_id:
+          type: string
+        lang_code:
+          type: string
+          maxLength: 10
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        audio:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - lang_code
+      - name
+      - poi_id
+      - updated_at
+    LocalizationWriteRequest:
+      type: object
+      properties:
+        lang_code:
+          $ref: '#/components/schemas/LangCodeEnum'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+        audio:
+          type: string
+          format: binary
+      required:
+      - lang_code
+      - name
+    LoginData:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserResponse'
+      required:
+      - access_token
+      - token_type
+      - user
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    LoginResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/LoginData'
+      required:
+      - data
+      - message
+      - status
+    POI:
+      type: object
+      description: Public POI serializer – resolves localized content for a given
+        language.
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        audio:
+          type: string
+          format: uri
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        type:
+          $ref: '#/components/schemas/Type446Enum'
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        distance:
+          type: number
+          format: float
+          readOnly: true
+        supported_languages:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - audio
+      - description
+      - distance
+      - id
+      - latitude
+      - longitude
+      - name
+      - slug
+      - supported_languages
+    POIDetail:
+      type: object
+      description: Admin POI serializer – adds extra admin fields.
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        audio:
+          type: string
+          format: uri
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        type:
+          $ref: '#/components/schemas/Type446Enum'
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        distance:
+          type: number
+          format: float
+          readOnly: true
+        supported_languages:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        radius:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        status:
+          $ref: '#/components/schemas/POIDetailStatusEnum'
+        default_lang:
+          type: string
+          maxLength: 10
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - audio
+      - created_at
+      - description
+      - distance
+      - id
+      - latitude
+      - longitude
+      - name
+      - slug
+      - supported_languages
+      - updated_at
+    POIDetailResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/POI'
+      required:
+      - data
+      - message
+      - status
+    POIDetailStatusEnum:
+      enum:
+      - active
+      - inactive
+      type: string
+      description: |-
+        * `active` - Active
+        * `inactive` - Inactive
+    POINearbyResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/POI'
+        status:
+          type: integer
+        message:
+          type: string
+      required:
+      - data
+      - message
+      - status
+    PatchedUpdatePOIRequest:
+      type: object
+      properties:
+        default_lang:
+          type: string
+          minLength: 1
+          maxLength: 10
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        radius:
+          type: integer
+          maximum: 500
+          minimum: 10
+        image:
+          type: string
+          format: binary
+        type:
+          $ref: '#/components/schemas/PoiTypeEnum'
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        status:
+          $ref: '#/components/schemas/UpdatePOIStatusEnum'
+    PoiTypeEnum:
+      enum:
+      - food
+      - drink
+      - museum
+      - park
+      - historical
+      - other
+      type: string
+      description: |-
+        * `food` - food
+        * `drink` - drink
+        * `museum` - museum
+        * `park` - park
+        * `historical` - historical
+        * `other` - other
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - email
+      - password
+    RegisterResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/UserResponse'
+      required:
+      - data
+      - message
+      - status
+    RoleEnum:
+      enum:
+      - admin
+      - tourist
+      type: string
+      description: |-
+        * `admin` - Admin
+        * `tourist` - Tourist
+    Status68aEnum:
+      enum:
+      - draft
+      - published
+      type: string
+      description: |-
+        * `draft` - Draft
+        * `published` - Published
+    SubscribePaymentMethodEnum:
+      enum:
+      - momo
+      - zalopay
+      - stripe
+      - other
+      type: string
+      description: |-
+        * `momo` - momo
+        * `zalopay` - zalopay
+        * `stripe` - stripe
+        * `other` - other
+    SubscribeRequest:
+      type: object
+      properties:
+        plan_id:
+          type: string
+          minLength: 1
+        payment_method:
+          $ref: '#/components/schemas/SubscribePaymentMethodEnum'
+      required:
+      - payment_method
+      - plan_id
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        user_id:
+          type: string
+          readOnly: true
+        plan:
+          allOf:
+          - $ref: '#/components/schemas/SubscriptionPlan'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/SubscriptionStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        expired_at:
+          type: string
+          format: date-time
+        payment_method:
+          $ref: '#/components/schemas/SubscriptionPaymentMethodEnum'
+        amount:
+          type: number
+          format: double
+        auto_renew:
+          type: boolean
+      required:
+      - amount
+      - created_at
+      - expired_at
+      - id
+      - payment_method
+      - plan
+      - user_id
+    SubscriptionPaymentMethodEnum:
+      enum:
+      - momo
+      - zalopay
+      - stripe
+      - other
+      type: string
+      description: |-
+        * `momo` - MoMo
+        * `zalopay` - ZaloPay
+        * `stripe` - Stripe
+        * `other` - Other
+    SubscriptionPlan:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        price:
+          type: number
+          format: double
+        features:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - features
+      - id
+      - price
+      - title
+    SubscriptionStatusEnum:
+      enum:
+      - active
+      - expired
+      - failed
+      - cancelled
+      type: string
+      description: |-
+        * `active` - Active
+        * `expired` - Expired
+        * `failed` - Failed
+        * `cancelled` - Cancelled
+    TTSRequestRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+        lang_code:
+          type: string
+          minLength: 1
+      required:
+      - lang_code
+      - text
+    Tour:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        point_count:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status68aEnum'
+      required:
+      - created_at
+      - id
+      - name
+      - point_count
+      - updated_at
+    TourDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        point_count:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status68aEnum'
+        pois:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourPointDetailInline'
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - point_count
+      - pois
+      - updated_at
+    TourDetailResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/TourDetail'
+      required:
+      - data
+      - message
+      - status
+    TourListResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/TourListResponseData'
+      required:
+      - data
+      - message
+      - status
+    TourListResponseData:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tour'
+        total:
+          type: integer
+        totalPage:
+          type: integer
+      required:
+      - results
+      - total
+      - totalPage
+    TourPointDetailInline:
+      type: object
+      properties:
+        id:
+          type: string
+        position:
+          type: integer
+        poi:
+          $ref: '#/components/schemas/POI'
+      required:
+      - id
+      - poi
+      - position
+    TranslateRequestRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+        target_language:
+          type: string
+          minLength: 1
+      required:
+      - target_language
+      - text
+    TranslateResponse:
+      type: object
+      properties:
+        translated_text:
+          type: string
+      required:
+      - translated_text
+    TranslateResponseWrapper:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/TranslateResponse'
+      required:
+      - data
+      - message
+      - status
+    Type446Enum:
+      enum:
+      - food
+      - drink
+      - museum
+      - park
+      - historical
+      - other
+      type: string
+      description: |-
+        * `food` - Food
+        * `drink` - Drink
+        * `museum` - Museum
+        * `park` - Park
+        * `historical` - Historical
+        * `other` - Other
+    UpdatePOIStatusEnum:
+      enum:
+      - active
+      - inactive
+      type: string
+      description: |-
+        * `active` - active
+        * `inactive` - inactive
+    UpdateTourPointRequest:
+      type: object
+      properties:
+        poi_id:
+          type: string
+          minLength: 1
+        position:
+          type: integer
+          minimum: 1
+      required:
+      - poi_id
+      - position
+    UpdateTourRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          format: binary
+        status:
+          $ref: '#/components/schemas/Status68aEnum'
+      required:
+      - name
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        date_joined:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+      required:
+      - email
+      - id
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
